@@ -7,4 +7,4 @@ OBJ = chatserver.o chatfunctions.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 chatserver: $(OBJ)
-	gcc -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CFLAGS)
