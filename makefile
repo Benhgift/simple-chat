@@ -1,10 +1,18 @@
 CC=gcc
 CFLAGS=-I. -lpthread
-DEPS = chatserver.h chatfunctions.h
-OBJ = chatserver.o chatfunctions.o
+SERVER_DEPS = chatserver.h chatfunctions.h
+CLIENT_DEPS = 
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+SERVER_OBJ = chatserver.o chatfunctions.o
+CLIENT_OBJ = simpleclient.o
 
-chatserver: $(OBJ)
+all: chatserver chatclient
+
+%.o: %.c $(SERVER_DEPS)
+	$(CC) -c -o $@ $< 
+
+chatserver: $(SERVER_OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+chatclient: $(CLIENT_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
