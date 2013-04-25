@@ -1,4 +1,6 @@
 #include "chatfunctions.h"
+#include <stdio.h>
+#include <string.h>
 
 void add_client(int clients[], int new_client)
 {
@@ -69,8 +71,12 @@ void send_to_all(int clients[], char message[])
 {
 	int i;
 
+	printf("Sending to all clients: %s\n", message);
+
 	for (i = 0; i < MAX_CLIENTS; i++){
-		send_message(clients[i], message);
+		if (clients[i] != 0){
+			send_message(clients[i], message);
+		}
 	}
 }
 
@@ -78,6 +84,8 @@ void send_message(int client_s, char message[])
 {
 	int stringlen;
 	stringlen = strlen(message);
+
+	printf("Sending to : %d\n", client_s);
 
 	send(client_s, &message, stringlen, 0);
 }

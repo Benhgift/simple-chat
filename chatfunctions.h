@@ -1,5 +1,5 @@
 #define MAX_CLIENTS 20
-#define MAX_MESS_BUF = 1024
+#define MAX_MESS_BUF 1024
 
 void add_client(int [], int);
 

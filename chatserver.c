@@ -27,7 +27,6 @@
 #define MESS_404    "<html><body><h1>FILE NOT FOUND</h1></body></html>"
  
 //----- Defines -------------------------------------------------------------
-#define MAX_MESS_BUF            1024     // buffer size in bytes
 #define PORT_NUM            6110     // Port number for a Web server (TCP 5080)
 #define PEND_CONNECTIONS     100     // pending connections to hold 
 #define TRUE                   1
@@ -71,14 +70,17 @@ void *client_thread(void * arg)
 
   /* if receive error --- */
   if (retcode < 0)
-  {   printf("recv error detected ...\n"); }
+  {   
+    printf("recv error detected ...\n");
+  }
  
   /* if HTTP command successfully received --- */
   else
   {    
     // Echo message to all clients
-    send_to_all(client_sock_list, in_buf)
+    send_to_all(client_sock_list, in_buf);
 
+    remove_client(client_sock_list, client_s);
     pthread_exit(NULL);
   }
 }
@@ -108,7 +110,7 @@ int main(void)
   server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
   bind(server_s, (struct sockaddr *)&server_addr, sizeof(server_addr));
  
-  /* Make into a listening socket ------------------------------- */
+  /* Listen for connections and then accept ------------------------------- */
   listen(server_s, PEND_CONNECTIONS);
  
   /* the web server main loop ============================================= */
