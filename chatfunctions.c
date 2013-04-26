@@ -24,6 +24,8 @@ void add_client(int clients[], int new_client)
 			printf("Client tried to connect but no open spots");
 		}
 	}
+
+	
 }
 
 void remove_client(int clients[], int old_client)
@@ -102,13 +104,6 @@ int parse_command(char message[])
 	return 0;	
 }
 
-<<<<<<< HEAD
-	send(client_s, message, stringlen, 0);
-}
-||||||| merged common ancestors
-	send(client_s, &message, stringlen, 0);
-}
-=======
 void do_command(int command, int client_s, int client_sock_list[])
 {
 	switch(command)
@@ -117,4 +112,3 @@ void do_command(int command, int client_s, int client_sock_list[])
 			break;
 	}
 }
->>>>>>> joe

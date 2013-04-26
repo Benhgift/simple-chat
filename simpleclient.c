@@ -22,7 +22,6 @@ void* listen_for_server_strings(void * arg)
   char string [BUFFER_SIZE+1];
   sockfd = *(unsigned int *)arg;        // copy the socket
   while (1) {
-    printf("waiting...\n");
     /* receive the first HTTP request (HTTP GET) ------- */
     bzero(string, BUFFER_SIZE);
     read(sockfd, &string, BUFFER_SIZE);
@@ -75,8 +74,8 @@ int main(int argc, char *argv[])
 	//Read and write via sockfd
   while(1) {
     bzero(client_text, BUFFER_SIZE);
-    scanf("Please enter text\n", &client_text);
-    printf("Sending to server\n");
+    scanf(" %[^\n]", client_text);
+    //printf("Sending to server\n");
     write(sockfd, &client_text, BUFFER_SIZE);
   }
 	close(sockfd);
