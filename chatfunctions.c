@@ -24,8 +24,6 @@ void add_client(int clients[], int new_client)
 			printf("Client tried to connect but no open spots");
 		}
 	}
-
-	
 }
 
 void remove_client(int clients[], int old_client)
@@ -87,5 +85,5 @@ void send_message(int client_s, char message[])
 
 	printf("Sending to : %d\n", client_s);
 
-	send(client_s, &message, stringlen, 0);
+	send(client_s, message, stringlen, 0);
 }

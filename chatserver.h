@@ -18,6 +18,6 @@
 #define SCHED_INTVL 5                  /* thread scheduling interval     */
 #define HIGHPRIORITY 10
 
-void *client_thread(void *);
+void* client_thread(void *);
 
 #endif

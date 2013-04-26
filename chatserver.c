@@ -33,7 +33,7 @@ unsigned int client_s;               // Client socket descriptor
  
  
 /* Child thread implementation ----------------------------------------- */
-void *client_thread(void * arg)
+void* client_thread(void * arg)
 {
   unsigned int    myClient_s;         //copy socket
    
