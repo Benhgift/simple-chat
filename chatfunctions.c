@@ -28,6 +28,8 @@ void add_client(int clients[], int new_client)
 
 void remove_client(int clients[], int old_client)
 {
+	// lockmutex(&mylock);
+
 	int i;
 
 	for(i = 0; i < MAX_CLIENTS; i++){
@@ -36,6 +38,8 @@ void remove_client(int clients[], int old_client)
 			break;
 		}
 	}
+	
+	// unlock(..)
 }
 
 int is_client(int clients[], int search)
@@ -69,7 +73,7 @@ void send_to_all(int clients[], char message[])
 {
 	int i;
 
-	printf("Sending to all clients: %s\n", message);
+	// printf("Sending to all clients: %s\n", message);
 
 	for (i = 0; i < MAX_CLIENTS; i++){
 		if (clients[i] != 0){
@@ -83,7 +87,34 @@ void send_message(int client_s, char message[])
 	int stringlen;
 	stringlen = strlen(message);
 
-	printf("Sending to : %d\n", client_s);
+	printf("Sending %s to: %d\n", message, client_s);
 
 	send(client_s, message, stringlen, 0);
 }
+
+int is_command(char message[])
+{
+	return 0;
+}
+
+int parse_command(char message[])
+{
+	return 0;	
+}
+
+<<<<<<< HEAD
+	send(client_s, message, stringlen, 0);
+}
+||||||| merged common ancestors
+	send(client_s, &message, stringlen, 0);
+}
+=======
+void do_command(int command, int client_s, int client_sock_list[])
+{
+	switch(command)
+	{
+		case 0:
+			break;
+	}
+}
+>>>>>>> joe

@@ -38,35 +38,52 @@ void* client_thread(void * arg)
   unsigned int    myClient_s;         //copy socket
    
   /* other local variables ------------------------------------------------ */
-  char           in_buf[MAX_MESS_BUF];           // Input buffer for GET resquest
-  char           out_buf[MAX_MESS_BUF];          // Output buffer for HTML response
-  char           *file_name;                 // File name
-  unsigned int   fh;                         // File handle (file descriptor)
-  unsigned int   buf_len;                    // Buffer length for file reads
-  unsigned int   retcode;                    // Return code
+
+  char message[MAX_MESS_BUF];
+  unsigned int retcode;                    // Return code
+  int command;
  
   myClient_s = *(unsigned int *)arg;        // copy the socket
 
   add_client(client_sock_list, myClient_s);
-  print_clients(client_sock_list);
- 
-  /* receive the first HTTP request (HTTP GET) ------- */
-  retcode = recv(client_s, in_buf, MAX_MESS_BUF, 0);
+  // print_clients(client_sock_list);
 
-  /* if receive error --- */
-  if (retcode < 0)
-  {   
-    printf("recv error detected ...\n");
-  }
- 
-  /* if HTTP command successfully received --- */
-  else
-  {    
-    // Echo message to all clients
-    send_to_all(client_sock_list, in_buf);
+  // Keep recieving messages from the client forever
+  while(1)
+  {
+    retcode = recv(client_s, message, MAX_MESS_BUF, 0);
+    printf("Recieved: %s\n", message);
+    /* if receive error --- */
+    if (retcode < 0)
+    {   
+      printf("recv error detected ...\n");
+      remove_client(client_sock_list, client_s);
+      pthread_exit(NULL);
+    }
+    else
+    {
+      if(is_command(message))
+      {
+        command = parse_command(message);
 
-    remove_client(client_sock_list, client_s);
-    pthread_exit(NULL);
+        if(command >= 0)
+        {
+          do_command(command, client_s, client_sock_list);
+        }
+        else
+        {
+          printf("Error parsing command: %s", message);
+        }
+
+      }
+      else
+      {
+        // Not a command, so it's a message
+        // Echo message to all clients
+        send_to_all(client_sock_list, message);
+        bzero(message, MAX_MESS_BUF);
+      }
+    }
   }
 }
 
@@ -108,7 +125,7 @@ int main(void)
     addr_len = sizeof(client_addr);
     client_s = accept(server_s, (struct sockaddr *)&client_addr, &addr_len);
  
-    printf("a new client arrives ...\n");  
+    printf("a new client arrives ...\n");
  
     if (client_s == FALSE)
     {
