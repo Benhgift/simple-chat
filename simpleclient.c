@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
 	
 	//Read and write via sockfd
   while(1) {
+    bzero(client_text, BUFFER_SIZE);
     scanf("Please enter text\n", &client_text);
     printf("Sending to server\n");
     write(sockfd, &client_text, BUFFER_SIZE);
