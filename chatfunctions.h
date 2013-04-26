@@ -16,5 +16,11 @@ void send_to_all(int [], char []);
 
 void send_message(int, char []);
 
+int is_command(char []);
+
+int parse_command(char []);
+
+void do_command(int, int, int []);
+
 #endif 
 
